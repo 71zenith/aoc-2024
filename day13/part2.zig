@@ -56,7 +56,7 @@ pub fn main() !void {
         total += (A * 3) + B;
     }
     print("total: {}\n", .{total});
-
     const input_time = @as(f64, @floatFromInt(nanoTimestamp() - start_time)) / ns_per_ms;
+
     print("Time {d:.5} ms\n", .{input_time});
 }

@@ -29,10 +29,10 @@ pub fn main() !void {
         var t1: isize = 0;
         var t2: isize = 0;
         var l2 = part.next().?;
-        x1 = try std.fmt.parseInt(isize, l2[11..14], 10);
+        x1 = try std.fmt.parseInt(isize, l2[12..14], 10);
         y1 = try std.fmt.parseInt(isize, l2[18..], 10);
         l2 = part.next().?;
-        x2 = try std.fmt.parseInt(isize, l2[11..14], 10);
+        x2 = try std.fmt.parseInt(isize, l2[12..14], 10);
         y2 = try std.fmt.parseInt(isize, l2[18..], 10);
         l2 = part.next().?;
         const comma = std.mem.indexOf(u8, l2, ",").?;
@@ -53,6 +53,7 @@ pub fn main() !void {
         const B = @divExact((o.eqn1[2] - (o.eqn1[0] * A)), o.eqn1[1]);
 
         if (B > 100 or B < 0) continue;
+        print("A:{} B:{}\n", .{ A, B });
         total += (A * 3) + B;
     }
     print("total: {}\n", .{total});
