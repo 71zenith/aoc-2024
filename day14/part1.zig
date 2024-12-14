@@ -42,26 +42,11 @@ pub fn main() !void {
         vy = try std.fmt.parseInt(isize, l[equal + 2 ..][comma - 1 ..], 10);
         try vec.append(info{ .pos = pos{ x, y }, .vel = vel{ vx, vy } });
     }
+
     const start_time = nanoTimestamp();
     for (vec.items) |o| {
         var newpos = o.pos;
-        for (0..100) |_| {
-            newpos += o.vel;
-            // if (@reduce(.Max, newpos) > grid) break;
-            if (newpos[0] < 0) {
-                newpos[0] = width + newpos[0];
-            }
-            if (newpos[0] > width - 1) {
-                newpos[0] = newpos[0] - width;
-            }
-            if (newpos[1] < 0) {
-                newpos[1] = height + newpos[1];
-            }
-            if (newpos[1] > height - 1) {
-                newpos[1] = newpos[1] - height;
-            }
-            // print("pos: {any} vel: {any}\n", .{ newpos, o.vel });
-        }
+        newpos = @mod((newpos + (o.vel * @as(pos, @splat(100)))), grid);
         try final.append(newpos);
     }
     var q1: usize = 0;
@@ -85,28 +70,8 @@ pub fn main() !void {
         if (x < midwidth and y > midheight) {
             q4 += 1;
         }
-
-        // if (o[0] < ((width - 1) / 2) and o[1] != ((height - 1) / 2)) {
-        //     total *= total;
-        // }
     }
     const total = q1 * q2 * q3 * q4;
-
-    // var total: isize = 0;
-    // for (set.items) |o| {
-    //     const neweq1 = o.eqn1 * @as(eqn, @splat(o.eqn2[1]));
-    //     const neweq2 = o.eqn2 * @as(eqn, @splat(o.eqn1[1]));
-    //     const res = neweq1 - neweq2;
-    //     const A = std.math.divExact(isize, res[2], res[0]) catch continue;
-    //     if (A > 100 or A < 0) continue;
-    //
-    //     const B = @divExact((o.eqn1[2] - (o.eqn1[0] * A)), o.eqn1[1]);
-    //
-    //     if (B > 100 or B < 0) continue;
-    //     print("A:{} B:{}\n", .{ A, B });
-    //     total += (A * 3) + B;
-    // }
-    // print("total: {}\n", .{total});
 
     const input_time = @as(f64, @floatFromInt(nanoTimestamp() - start_time)) / ns_per_ms;
     print("total: {}\n", .{total});
